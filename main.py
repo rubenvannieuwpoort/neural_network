@@ -1,6 +1,6 @@
-from batcher import Batcher
 from nn import Model, Linear, ReLU, MSELoss
-from mnist import load_dataset
+from helpers.batcher import Batcher
+from helpers.mnist import load_dataset
 import numpy as np
 import sys
 
@@ -20,8 +20,8 @@ def accuracy(model, dataset):
     return correct / total
 
 
-training_set = list(load_dataset('train-images-idx3-ubyte', 'train-labels-idx1-ubyte'))[0:7500]
-test_set = list(load_dataset('t10k-images-idx3-ubyte', 't10k-labels-idx1-ubyte'))
+training_set = list(load_dataset('data/mnist/train-images-idx3-ubyte', 'data/mnist/train-labels-idx1-ubyte'))
+test_set = list(load_dataset('data/mnist/t10k-images-idx3-ubyte', 'data/mnist/t10k-labels-idx1-ubyte'))
 
 model = Model([
     Linear(784, 64),
@@ -33,7 +33,7 @@ batcher = Batcher(training_set, 64)
 
 print(f'batch; train accuracy; test accuracy')
 
-num_batches = 250000
+num_batches = 10000
 for batchidx in range(0, num_batches):
     batch = batcher.get_batch()
     total_loss = model.train(batch, 0.025)
