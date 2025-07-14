@@ -1,23 +1,11 @@
 import numpy as np
-from abc import ABC, abstractmethod
-
-class Layer(ABC):
-    @abstractmethod
-    def forward(self, x):
-        pass
-
-    @abstractmethod
-    def backward(self, dy):
-        pass
 
 
-class Linear(Layer):
+class Linear:
     def __init__(self, in_features, out_features):
         self.W = np.random.randn(in_features, out_features) * 0.01  # TODO: Kaiming initialization
         self.b = np.zeros((1, out_features))
-        self.x = None  # Store input for backward pass
-        self.dW = None
-        self.db = None
+        self.x, self.dW, self.dB = None, None, None
 
     def forward(self, x):
         self.x = x
@@ -29,7 +17,7 @@ class Linear(Layer):
         return grad @ self.W.T
 
 
-class ReLU(Layer):
+class ReLU:
     def __init__(self):
         self.x = None
     
@@ -81,7 +69,7 @@ class Model:
         self.update(learning_rate / len(batch))
         return total_loss / len(batch)
 
-    def total_loss(self, batch):
+    def loss(self, batch):
         loss = 0
         for x, y_ref in batch:
             loss += self.loss_function.forward(self.forward(x), y_ref)
