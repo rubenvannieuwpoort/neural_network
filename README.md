@@ -14,8 +14,6 @@ $ source .venv/bin/activate
 (.venv) $ pip install -r requirements.txt
 ```
 
-(This is necessary because `numpy` is a dependency. I plan to get rid of this.)
-
 Then, make sure the MNIST dataset is available. This is most easily done with the provided `Makefile`:
 ```
 $ make
