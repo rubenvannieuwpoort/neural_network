@@ -6,18 +6,7 @@ import sys
 
 
 def accuracy(model, dataset):
-    correct = 0
-    total = len(dataset)
-    
-    for x, y_ref in dataset:
-        y_pred = model.forward(x)
-        predicted_class = np.argmax(y_pred)
-        actual_class = np.argmax(y_ref)
-
-        if predicted_class == actual_class:
-            correct += 1
-
-    return correct / total
+    return sum(1 for x, y_ref in dataset if np.argmax(model.forward(x)) == np.argmax(y_ref)) / len(dataset)
 
 
 training_set = list(load_dataset('data/mnist/train-images-idx3-ubyte', 'data/mnist/train-labels-idx1-ubyte'))
