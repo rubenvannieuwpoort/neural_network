@@ -47,9 +47,6 @@ for batchidx in range(0, num_batches):
     for layer in model.layers:
         for p in layer.param:
             layer.param[p] -= learning_rate * layer.grad[p]
-
-    for layer in model.layers:
-        for p in layer.param:
             layer.grad[p].fill(0)
 
     if batchidx % 100 == 0:
