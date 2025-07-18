@@ -57,11 +57,6 @@ class Model:
         for layer in reversed(self.layers):
             grad = layer.backward(grad)
 
-    def update(self, learning_rate):
-        for layer in self.layers:
-            for p in layer.param:
-                layer.param[p] -= learning_rate * layer.grad[p]
-
     def train(self, batch, learning_rate):
         total_loss = 0
         for x, y_ref in batch:
@@ -69,7 +64,9 @@ class Model:
             total_loss += self.loss_function.forward(y, y_ref)
             self.backward(self.loss_function.backward())
 
-        self.update(learning_rate / len(batch))
+        for layer in self.layers:
+            for p in layer.param:
+                layer.param[p] -= learning_rate * layer.grad[p]
 
         for layer in self.layers:
             for p in layer.param:
