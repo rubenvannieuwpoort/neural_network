@@ -24,11 +24,11 @@ class ReLU:
     def __init__(self):
         self.param = {}
         self.x = None
-    
+
     def forward(self, x):
         self.x = x
         return np.maximum(0, x)
-    
+
     def backward(self, grad):
         return grad * (self.x > 0)
 
@@ -38,7 +38,7 @@ class MSELoss:
         self.y = y
         self.y_ref = y_ref
         return np.mean((y - y_ref) ** 2)
-    
+
     def backward(self):
         return 2 * (self.y - self.y_ref) / self.y.shape[1]
 
