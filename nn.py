@@ -15,8 +15,8 @@ class Linear:
         return x @ self.param['W'] + self.param['b']
 
     def backward(self, grad):
-        self.grad['W'] += (grad.T * self.x).T
-        self.grad['b'] += np.sum(grad, axis=0, keepdims=True)
+        self.grad['W'] += self.x.T * grad  # TODO: sum here
+        self.grad['b'] += grad  # np.sum(grad, axis=0, keepdims=True)
         return grad @ self.param['W'].T
 
 

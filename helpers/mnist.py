@@ -12,7 +12,7 @@ def load_dataset(images_path, labels_path):
 def load_labels(labels_path):        
     labels = []
     with open(labels_path, 'rb') as file:
-        magic, size = struct.unpack(">II", file.read(8))
+        magic, _ = struct.unpack(">II", file.read(8))
         if magic != 2049:
             raise ValueError('Magic number mismatch, expected 2049, got {}'.format(magic))
         labels = array("B", file.read())
@@ -29,7 +29,7 @@ def load_images(images_path):
  
     images = []
     for i in range(size):
-        images.append(np.array(image_data[i * rows * cols:(i + 1) * rows * cols]).astype(np.float32) / 255.0)
+        images.append(np.array(image_data[i * rows * cols:(i + 1) * rows * cols]).astype(np.float32).reshape(1, -1) / 255.0)
     
     return images
 
