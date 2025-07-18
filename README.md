@@ -25,3 +25,13 @@ $ python main.py > output.csv
 ```
 
 Now, you can open `output.csv` in Excel or OpenOffice Calc, and make a pretty graph of the accuracy.
+
+
+## TODO
+- batching
+- Kaiment initialization of the weights
+- softmax layer
+- cross-entropy loss
+- different optimizers
+- dropout
+- l2 regularization
