@@ -33,10 +33,10 @@ batcher = Batcher(training_set, 64)
 
 print(f'batch; train accuracy; test accuracy')
 
-num_batches = 10000
+num_batches = 1000
 for batchidx in range(0, num_batches):
     batch = batcher.get_batch()
-    total_loss = model.train(batch, 0.025)
+    total_loss = model.train(batch, 0.001)
 
     if batchidx % 100 == 0:
         sys.stderr.write(f'{batchidx / num_batches * 100:.2f}%\n')

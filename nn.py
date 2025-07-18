@@ -5,15 +5,17 @@ class Linear:
     def __init__(self, in_features, out_features):
         self.W = np.random.randn(in_features, out_features) * 0.01  # TODO: Kaiming initialization
         self.b = np.zeros((1, out_features))
-        self.x, self.dW, self.dB = None, None, None
+        self.dW = np.zeros_like(self.W)
+        self.db = np.zeros_like(self.b)
+        self.x = None
 
     def forward(self, x):
         self.x = x
         return x @ self.W + self.b
 
     def backward(self, grad):
-        self.dW = (grad.T * self.x).T
-        self.db = np.sum(grad, axis=0, keepdims=True)
+        self.dW += (grad.T * self.x).T
+        self.db += np.sum(grad, axis=0, keepdims=True)
         return grad @ self.W.T
 
 
@@ -52,12 +54,18 @@ class Model:
     def backward(self, grad):
         for layer in reversed(self.layers):
             grad = layer.backward(grad)
-    
+
     def update(self, learning_rate):
         for layer in self.layers:
             if hasattr(layer, 'W'):
                 layer.W -= learning_rate * layer.dW
                 layer.b -= learning_rate * layer.db
+
+    def reset_gradients(self):
+        for layer in self.layers:
+            if hasattr(layer, 'W'):
+                layer.dW.fill(0)
+                layer.db.fill(0)
 
     def train(self, batch, learning_rate):
         total_loss = 0
@@ -67,6 +75,7 @@ class Model:
             self.backward(self.loss_function.backward())
 
         self.update(learning_rate / len(batch))
+        self.reset_gradients()
         return total_loss / len(batch)
 
     def loss(self, batch):
