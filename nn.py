@@ -3,24 +3,26 @@ import numpy as np
 
 class Linear:
     def __init__(self, in_features, out_features):
-        self.W = np.random.randn(in_features, out_features) * 0.01  # TODO: Kaiming initialization
-        self.b = np.zeros((1, out_features))
-        self.dW = np.zeros_like(self.W)
-        self.db = np.zeros_like(self.b)
         self.x = None
+        self.param = {
+            'W': np.random.randn(in_features, out_features) * 0.01,  # TODO: Kaiming initialization
+            'b': np.zeros((1, out_features)),
+        }
+        self.grad = { p: np.zeros_like(self.param[p]) for p in self.param }
 
     def forward(self, x):
         self.x = x
-        return x @ self.W + self.b
+        return x @ self.param['W'] + self.param['b']
 
     def backward(self, grad):
-        self.dW += (grad.T * self.x).T
-        self.db += np.sum(grad, axis=0, keepdims=True)
-        return grad @ self.W.T
+        self.grad['W'] += (grad.T * self.x).T
+        self.grad['b'] += np.sum(grad, axis=0, keepdims=True)
+        return grad @ self.param['W'].T
 
 
 class ReLU:
     def __init__(self):
+        self.param = {}
         self.x = None
     
     def forward(self, x):
@@ -57,15 +59,13 @@ class Model:
 
     def update(self, learning_rate):
         for layer in self.layers:
-            if hasattr(layer, 'W'):
-                layer.W -= learning_rate * layer.dW
-                layer.b -= learning_rate * layer.db
+            for p in layer.param:
+                layer.param[p] -= learning_rate * layer.grad[p]
 
     def reset_gradients(self):
         for layer in self.layers:
-            if hasattr(layer, 'W'):
-                layer.dW.fill(0)
-                layer.db.fill(0)
+            for p in layer.param:
+                layer.grad[p].fill(0)
 
     def train(self, batch, learning_rate):
         total_loss = 0
