@@ -56,10 +56,3 @@ class Model:
     def backward(self, grad):
         for layer in reversed(self.layers):
             grad = layer.backward(grad)
-
-    def loss(self, batch):
-        loss = 0
-        for x, y_ref in batch:
-            loss += self.loss_function.forward(self.forward(x), y_ref)
-
-        return loss / len(batch)
