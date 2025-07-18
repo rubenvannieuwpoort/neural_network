@@ -62,11 +62,6 @@ class Model:
             for p in layer.param:
                 layer.param[p] -= learning_rate * layer.grad[p]
 
-    def reset_gradients(self):
-        for layer in self.layers:
-            for p in layer.param:
-                layer.grad[p].fill(0)
-
     def train(self, batch, learning_rate):
         total_loss = 0
         for x, y_ref in batch:
@@ -75,7 +70,11 @@ class Model:
             self.backward(self.loss_function.backward())
 
         self.update(learning_rate / len(batch))
-        self.reset_gradients()
+
+        for layer in self.layers:
+            for p in layer.param:
+                layer.grad[p].fill(0)
+
         return total_loss / len(batch)
 
     def loss(self, batch):
