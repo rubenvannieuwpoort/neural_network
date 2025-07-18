@@ -5,7 +5,7 @@ class Linear:
     def __init__(self, in_features, out_features):
         self.x = None
         self.param = {
-            'W': np.random.randn(in_features, out_features) * 0.01,  # TODO: Kaiming initialization
+            'W': np.random.randn(in_features, out_features) * (2 / in_features)**.5,
             'b': np.zeros((1, out_features)),
         }
         self.grad = { p: np.zeros_like(self.param[p]) for p in self.param }

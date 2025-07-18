@@ -24,7 +24,7 @@ batcher = Batcher(training_set, batch_size)
 print(f'batch; train accuracy; test accuracy')
 
 num_batches = 1000
-learning_rate = 0.001 / batch_size
+learning_rate = 0.1 / batch_size
 for batchidx in range(0, num_batches):
     batch = batcher.get_batch()
 

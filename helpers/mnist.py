@@ -25,11 +25,11 @@ def load_images(images_path):
         magic, size, rows, cols = struct.unpack(">IIII", file.read(16))
         if magic != 2051:
             raise ValueError('Magic number mismatch, expected 2051, got {}'.format(magic))
-        image_data = array("B", file.read())       
+        image_data = array("B", file.read())
  
     images = []
     for i in range(size):
-        images.append(np.array(image_data[i * rows * cols:(i + 1) * rows * cols]))
+        images.append(np.array(image_data[i * rows * cols:(i + 1) * rows * cols]).astype(np.float32) / 255.0)
     
     return images
 
