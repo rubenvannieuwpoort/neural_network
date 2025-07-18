@@ -38,7 +38,7 @@ for batchidx in range(0, num_batches):
             layer.param[p] -= learning_rate * layer.grad[p]
             layer.grad[p].fill(0)
 
-    if batchidx % 100 == 0:
+    if batchidx % 50 == 0:
         sys.stderr.write(f'{batchidx / num_batches * 100:.2f}%\n')
         sys.stderr.flush()
         print(f'{batchidx}; {accuracy(model, training_set)}; {accuracy(model, test_set)}')
