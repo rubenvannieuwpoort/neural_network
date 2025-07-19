@@ -1,3 +1,4 @@
+import pickle
 import numpy as np
 
 
@@ -56,3 +57,11 @@ class Model:
     def backward(self, grad):
         for layer in reversed(self.layers):
             grad = layer.backward(grad)
+
+    def save(self, filename):
+        with open(filename, 'wb') as file:
+            pickle.dump(self, file)
+
+    def load(filename):
+        with open(filename, 'rb') as file:
+            return pickle.load(file)

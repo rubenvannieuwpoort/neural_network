@@ -29,7 +29,6 @@ Now, you can open `output.csv` in Excel or OpenOffice Calc, and make a pretty gr
 
 ## TODO
 - batching
-- saving/loading models/weights
 - leaky ReLU
 - tanh
 - sigmoid
