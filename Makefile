@@ -1,6 +1,10 @@
 # Makefile for MNIST dataset
 
-.PHONY: download clean
+.PHONY: prepare
+
+
+output.csv: data/mnist/train-images-idx3-ubyte data/mnist/train-labels-idx1-ubyte data/mnist/t10k-images-idx3-ubyte data/mnist/t10k-labels-idx1-ubyte
+	python main.py > output.csv
 
 
 prepare: data/mnist/train-images-idx3-ubyte data/mnist/train-labels-idx1-ubyte data/mnist/t10k-images-idx3-ubyte data/mnist/t10k-labels-idx1-ubyte
