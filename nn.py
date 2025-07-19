@@ -13,11 +13,11 @@ class Linear:
 
     def forward(self, x):
         self.x = x
-        return x @ self.param['W'] + self.param['b']  # TODO: check that this works for batches
+        return x @ self.param['W'] + self.param['b']
 
     def backward(self, grad):
-        self.grad['W'] += self.x.T * grad  # TODO: adjust for batches
-        self.grad['b'] += grad  # TODO: use np.sum(grad, axis=0, keepdims=True) for batches
+        self.grad['W'] += self.x.T @ grad
+        self.grad['b'] += np.sum(grad, axis=0, keepdims=True)
         return grad @ self.param['W'].T
 
 
@@ -28,20 +28,20 @@ class ReLU:
 
     def forward(self, x):
         self.x = x
-        return np.maximum(0, x)  # TODO: check that this works for batches
+        return np.maximum(0, x)
 
     def backward(self, grad):
-        return grad * (self.x > 0)  # TODO: check that this works for batches
+        return grad * (self.x > 0)
 
 
 class MSELoss:
     def forward(self, y, y_ref):
         self.y = y
         self.y_ref = y_ref
-        return np.mean((y - y_ref) ** 2)  # TODO: adjust for batches (use keepdims?)
+        return np.mean((y - y_ref) ** 2)
 
     def backward(self):
-        return (2 / self.y.shape[1]) * (self.y - self.y_ref)  # TODO: check that this works for batches
+        return (2 / self.y.shape[1]) * (self.y - self.y_ref)
 
 
 class Model:

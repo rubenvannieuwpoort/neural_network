@@ -18,27 +18,27 @@ model = Model([
     Linear(64, 10),
 ], MSELoss())
 
-batch_size = 64
+batch_size = 32
 batcher = Batcher(training_set, batch_size)
 
 print(f'batch; train accuracy; test accuracy')
 
-num_batches = 1000
+num_samples = 1024*128
+num_batches = num_samples // batch_size
 learning_rate = 0.1 / batch_size
 for batchidx in range(0, num_batches):
-    batch = batcher.get_batch()
+    x, y_ref = batcher.get_batch()
 
-    for x, y_ref in batch:
-        y = model.forward(x)
-        model.loss_function.forward(y, y_ref)
-        model.backward(model.loss_function.backward())
+    y = model.forward(x)
+    model.loss_function.forward(y, y_ref)
+    model.backward(model.loss_function.backward())
 
     for layer in model.layers:
         for p in layer.param:
             layer.param[p] -= learning_rate * layer.grad[p]
             layer.grad[p].fill(0)
 
-    if batchidx % 50 == 0:
+    if batchidx % 10 == 0:
+        print(f'{batchidx}; {accuracy(model, training_set)}; {accuracy(model, test_set)}')
         sys.stderr.write(f'{batchidx / num_batches * 100:.2f}%\n')
         sys.stderr.flush()
-        print(f'{batchidx}; {accuracy(model, training_set)}; {accuracy(model, test_set)}')

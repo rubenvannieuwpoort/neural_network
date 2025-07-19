@@ -28,7 +28,6 @@ Now, you can open `output.csv` in Excel or OpenOffice Calc, and make a pretty gr
 
 
 ## TODO
-- batching
 - leaky ReLU
 - tanh
 - sigmoid
