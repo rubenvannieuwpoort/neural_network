@@ -1,6 +1,6 @@
 # Neural network
 
-This is an extremely simple implementation of a neural network in Python. It takes about 75 lines of code.
+This is an extremely simple implementation of a neural network in Python.
 
 It uses fully connected linear layers and a ReLU activation function, and uses the mean square error loss function. It trains on the MNIST dataset and reaches about 95% accuracy.
 
