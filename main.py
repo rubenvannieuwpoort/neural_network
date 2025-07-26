@@ -1,10 +1,15 @@
-from nn import Model, Linear, ReLU, MSELoss
-from helpers.mnist import load_dataset
+from neural_network import Model
+from neural_network.trainer import Trainer
+from neural_network.optimizers import NoOptimizer
+from neural_network.layers import Linear, ReLU
+from neural_network.loss_functions import MeanSquareError
+from neural_network.helpers.mnist import load_dataset
+
 import numpy as np
 import sys
-from training import Trainer
-from optimizers import NoOptimizer
 
+from neural_network.layers import Linear, ReLU
+from neural_network.loss_functions import MeanSquareError
 
 # load training and test datasets
 training_set = list(load_dataset('data/mnist/train-images-idx3-ubyte', 'data/mnist/train-labels-idx1-ubyte'))
@@ -15,7 +20,7 @@ model = Model([
     Linear(784, 64),
     ReLU(),
     Linear(64, 10),
-], MSELoss())
+], MeanSquareError())
 
 
 def accuracy(model, dataset):
