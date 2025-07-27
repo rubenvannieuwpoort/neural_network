@@ -34,8 +34,8 @@ class Trainer:
                 self.model.loss_function.forward(y, y_ref)
                 self.model.backward(self.model.loss_function.backward())
 
-            self.optimizer.step(learning_rate, self.samples_per_step)
+            self.optimizer.step(learning_rate / self.samples_per_step)
 
-        for layer in self.model.layers:
-            for p in layer.param:
-                layer.grad[p].fill(0)
+            for layer in self.model.layers:
+                for p in layer.param:
+                    layer.grad[p].fill(0)

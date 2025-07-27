@@ -1,19 +1,28 @@
+import sys
+
+import numpy as np
+
 from neural_network import Model
 from neural_network.trainer import Trainer
 from neural_network.optimizers import NoOptimizer
 from neural_network.layers import Linear, ReLU
 from neural_network.loss_functions import MeanSquareError
-from neural_network.helpers.mnist import load_dataset
+from neural_network.dataloaders import MNIST
 
-import numpy as np
-import sys
-
-from neural_network.layers import Linear, ReLU
-from neural_network.loss_functions import MeanSquareError
 
 # load training and test datasets
-training_set = list(load_dataset('data/mnist/train-images-idx3-ubyte', 'data/mnist/train-labels-idx1-ubyte'))
-test_set = list(load_dataset('data/mnist/t10k-images-idx3-ubyte', 'data/mnist/t10k-labels-idx1-ubyte'))
+training_set, test_set = MNIST.training_set(), MNIST.test_set()
+
+
+def one_hot(x):
+    result = np.zeros(10)
+    result[x] = 1
+    return np.array(result)
+
+
+training_set = list(map(lambda x: (x[0], one_hot(x[1])), training_set))
+test_set = list(map(lambda x: (x[0], one_hot(x[1])), test_set))
+
 
 # define the model
 model = Model([
@@ -39,9 +48,20 @@ trainer = Trainer(model, training_set, 32, 1, NoOptimizer())
 
 print('iterations;training acc;test acc')
 
-# train in 50 iterations of 1000 batches with learning rate 0.001
-for i in range(50):
+for i in range(25):
     print_accuracy(i)
-    trainer.train(1000, 0.001)
+    trainer.train(100, 1)
+
+for i in range(25, 50):
+    print_accuracy(i)
+    trainer.train(100, 0.1)
+
+for i in range(50, 100):
+    print_accuracy(i)
+    trainer.train(100, 0.01)
+
+for i in range(100, 200):
+    print_accuracy(i)
+    trainer.train(100, 0.001)
 
 print_accuracy(50)
