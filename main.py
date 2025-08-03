@@ -14,10 +14,8 @@ from neural_network.dataloaders import MNIST
 training_set, test_set = MNIST.training_set(), MNIST.test_set()
 
 
-def one_hot(x):
-    result = np.zeros(10)
-    result[x] = 1
-    return np.array(result)
+def one_hot(k):
+    return np.array([1 if i == k else 0 for i in range(10)])
 
 
 training_set = list(map(lambda x: (x[0], one_hot(x[1])), training_set))
