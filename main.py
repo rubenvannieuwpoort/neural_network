@@ -34,11 +34,8 @@ def accuracy(model, dataset):
     return sum(1 for x, y_ref in dataset if np.argmax(model.forward(x)) == np.argmax(y_ref)) / len(dataset)
 
 def print_accuracy(i):
-    # print accuracies both to stdout and stderr
     tracc, teacc = accuracy(model, training_set), accuracy(model, test_set)
     print(f'{i};{tracc:.3f};{teacc:.3f}')
-    sys.stderr.write(f'{i};{tracc:.3f};{teacc:.3f}\n')
-    sys.stderr.flush()
 
 # train in minibatches of size 32, don't use an optimizer
 trainer = Trainer(model, training_set, 32, 1, NoOptimizer())
