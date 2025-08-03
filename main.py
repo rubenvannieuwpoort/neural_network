@@ -15,7 +15,7 @@ training_set, test_set = MNIST.training_set(), MNIST.test_set()
 def one_hot(k):
     return np.array([1 if i == k else 0 for i in range(10)])
 
-
+# convert labels to one-hot representation
 training_set = list(map(lambda x: (x[0], one_hot(x[1])), training_set))
 test_set = list(map(lambda x: (x[0], one_hot(x[1])), test_set))
 
