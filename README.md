@@ -31,7 +31,6 @@ Now, you can open `output.csv` in Excel or OpenOffice Calc, and make a pretty gr
 - leaky ReLU
 - tanh
 - sigmoid
-- softmax layer
 - cross-entropy loss
 - different optimizers
 - dropout
