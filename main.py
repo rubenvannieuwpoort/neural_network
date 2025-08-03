@@ -1,5 +1,3 @@
-import sys
-
 import numpy as np
 
 from neural_network import Model
@@ -40,7 +38,6 @@ def print_accuracy(i):
 # train in minibatches of size 32, don't use an optimizer
 trainer = Trainer(model, training_set, 32, 1, NoOptimizer())
 
-
 print('iterations;training acc;test acc')
 
 for i in range(25):
@@ -50,13 +47,5 @@ for i in range(25):
 for i in range(25, 50):
     print_accuracy(i)
     trainer.train(100, 0.1)
-
-for i in range(50, 100):
-    print_accuracy(i)
-    trainer.train(100, 0.01)
-
-for i in range(100, 200):
-    print_accuracy(i)
-    trainer.train(100, 0.001)
 
 print_accuracy(50)
