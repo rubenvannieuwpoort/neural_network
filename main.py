@@ -3,8 +3,8 @@ import numpy as np
 from neural_network import Model
 from neural_network.trainer import Trainer
 from neural_network.optimizers import NoOptimizer
-from neural_network.layers import Linear, ReLU
-from neural_network.loss_functions import MeanSquareError
+from neural_network.layers import Linear, ReLU, Softmax
+from neural_network.loss_functions import CrossEntropyLoss, MeanSquareError
 from neural_network.dataloaders import MNIST
 
 
@@ -22,10 +22,13 @@ test_set = list(map(lambda x: (x[0], one_hot(x[1])), test_set))
 
 # define the model
 model = Model([
-    Linear(784, 64),
+    Linear(784, 128),
+    ReLU(),
+    Linear(128, 64),
     ReLU(),
     Linear(64, 10),
-], MeanSquareError())
+    Softmax(),
+], CrossEntropyLoss())
 
 
 def accuracy(model, dataset):
@@ -34,6 +37,7 @@ def accuracy(model, dataset):
 def print_accuracy(i):
     tracc, teacc = accuracy(model, training_set), accuracy(model, test_set)
     print(f'{i};{tracc:.3f};{teacc:.3f}')
+
 
 # train in minibatches of size 32, don't use an optimizer
 trainer = Trainer(model, training_set, 32, 1, NoOptimizer())
@@ -44,8 +48,6 @@ for i in range(25):
     print_accuracy(i)
     trainer.train(100, 1)
 
-for i in range(25, 50):
-    print_accuracy(i)
-    trainer.train(100, 0.1)
+print_accuracy(25)
 
-print_accuracy(50)
+model.save("model.pkl")
